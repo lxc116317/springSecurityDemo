@@ -1,8 +1,10 @@
 package com.security.demo.security;
 
+import com.security.demo.config.SecurityProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,10 +26,11 @@ import java.util.stream.Collectors;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class TokenProvider implements InitializingBean {
 
     @Autowired
-    private com.security.demo.config.SecurityProperties properties;
+    private final SecurityProperties properties;
     public static final String AUTHORITIES_KEY = "auth";
     private JwtParser jwtParser;
     private JwtBuilder jwtBuilder;
@@ -35,8 +38,8 @@ public class TokenProvider implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
 
-        String secret = "ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=";
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
+//        String secret = "ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=";
+        byte[] keyBytes = Decoders.BASE64.decode(properties.getBase64Secret());
         Key key = Keys.hmacShaKeyFor(keyBytes);
         jwtParser = Jwts.parserBuilder().setSigningKey(key).build();
         jwtBuilder = Jwts.builder().signWith(key, SignatureAlgorithm.HS512);

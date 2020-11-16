@@ -1,10 +1,8 @@
 package com.security.demo.config;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
 @Data
-@Component
 public class SecurityProperties {
 
     /**
