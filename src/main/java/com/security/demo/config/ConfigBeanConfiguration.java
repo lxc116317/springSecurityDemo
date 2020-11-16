@@ -15,4 +15,6 @@ public class ConfigBeanConfiguration {
     public SecurityProperties securityProperties() {
         return new SecurityProperties();
     }
+
+
 }
