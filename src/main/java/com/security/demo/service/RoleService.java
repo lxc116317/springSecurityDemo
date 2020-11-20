@@ -17,13 +17,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @CacheConfig 相当于目录结构
+ */
 @Service
 @CacheConfig(cacheNames = "role")
 public class RoleService {
     @Autowired
     private RoleMapper roleMapper;
 
-
+    /**
+     * #p0就是参数
+     * @param user
+     * @return
+     */
     @Cacheable(key = "'auth......'+#p0.id")
     public List<GrantedAuthority> mapToGrantedAuthorities(UserDto user){
         Set<String> permissions = new HashSet<>();
