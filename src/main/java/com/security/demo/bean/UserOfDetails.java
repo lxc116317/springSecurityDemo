@@ -15,7 +15,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails {
+public class UserOfDetails implements UserDetails {
 
     private Long id;
     private String username;

@@ -27,6 +27,9 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @RequiredArgsConstructor
+/**
+ * 在spring初始化bean的时候，如果bean实现了InitializingBean接口，会自动调用afterPropertiesSet方法
+ */
 public class TokenProvider implements InitializingBean {
 
     @Autowired
@@ -36,7 +39,7 @@ public class TokenProvider implements InitializingBean {
     private JwtBuilder jwtBuilder;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
 
 //        String secret = "ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=";
         byte[] keyBytes = Decoders.BASE64.decode(properties.getBase64Secret());
@@ -46,6 +49,12 @@ public class TokenProvider implements InitializingBean {
 
     }
 
+    /**
+     * Authentication 认证
+     *
+     * @param authentication
+     * @return
+     */
     public String createToken(Authentication authentication){
         /**
          *  更优雅的字符串连接(join)收集器 Collectors.joining
@@ -70,6 +79,8 @@ public class TokenProvider implements InitializingBean {
      * 从token中获取认证信息
      * @param token
      * @return
+     *
+     * authorization  授权
      */
     public Authentication getAuthentication(String token) {
         Claims claims = jwtParser.parseClaimsJws(token).getBody();
