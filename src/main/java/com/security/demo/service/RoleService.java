@@ -6,6 +6,8 @@ import com.security.demo.bean.dto.UserDto;
 import com.security.demo.mapper.RoleMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@CacheConfig(cacheNames = "role")
 public class RoleService {
     @Autowired
     private RoleMapper roleMapper;
 
 
+    @Cacheable(key = "'auth......'+#p0.id")
     public List<GrantedAuthority> mapToGrantedAuthorities(UserDto user){
         Set<String> permissions = new HashSet<>();
         // 如果是管理员直接返回

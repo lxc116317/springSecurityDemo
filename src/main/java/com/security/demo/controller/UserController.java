@@ -47,10 +47,14 @@ public class UserController {
     }
 
 
-
+    /**
+     * @PreAuthorize 顾名思义是进入方法前的权限验证
+     * @param resources
+     * @return
+     */
     @ApiOperation("新增用户")
     @PostMapping
-    @PreAuthorize("@el.check('user:add')")
+//    @PreAuthorize("@el.check('user:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody UserBean resources){
 //        checkLevel(resources);
         // 默认密码 123456
