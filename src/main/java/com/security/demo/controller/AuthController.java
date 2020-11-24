@@ -1,5 +1,6 @@
 package com.security.demo.controller;
 
+import com.security.demo.annotation.AnonymousGetMapping;
 import com.security.demo.bean.dto.JwtUserDto;
 import com.security.demo.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +25,7 @@ public class AuthController {
     private AuthenticationManagerBuilder authenticationManagerBuilder;
 
 
-    @GetMapping("/login")
+    @AnonymousGetMapping("/login")
     public Object login(@RequestParam String userName, @RequestParam String Password) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userName, Password);
